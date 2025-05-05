@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://iys0xgc1r27i"]
+
+[ext_resource type="Script" uid="uid://donyd6xxyu51k" path="res://scripts/player/cam_controller.gd" id="1_cyojo"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_kk62l"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_kk62l"]
+height = 0.995544
+
+[node name="Player" type="CharacterBody3D"]
+
+[node name="Mesh" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mesh"]
+transform = Transform3D(0.752924, 0, 0, 0, 0.623211, 0, 0, 0, 1, 0, 0.664685, 0)
+mesh = SubResource("CapsuleMesh_kk62l")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.502228, 0)
+shape = SubResource("CylinderShape3D_kk62l")
+
+[node name="CamRoot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.950675, -0.931698)
+script = ExtResource("1_cyojo")
+
+[node name="CamYaw" type="Node3D" parent="CamRoot"]
+
+[node name="CamPitch" type="Node3D" parent="CamRoot/CamYaw"]
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CamRoot/CamYaw/CamPitch"]
+spring_length = 3.0
+
+[node name="Camera3D" type="Camera3D" parent="CamRoot/CamYaw/CamPitch/SpringArm3D"]
