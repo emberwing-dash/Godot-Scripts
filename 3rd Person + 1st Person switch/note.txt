@@ -1,2 +1,4 @@
-1. Camera transition: from 1st to 3rd and vise versa
-2. Player Movement: WASD basic movement
+1. Camera transition: 
+   From 1st to 3rd and vise versa
+2. Player Movement + Camera Field of Vision Control(fov): 
+   WASD basic movement & FOV control

@@ -1,0 +1,56 @@
+[gd_scene load_steps=10 format=3 uid="uid://iys0xgc1r27i"]
+
+[ext_resource type="Script" uid="uid://cvyvyubrue6tw" path="res://scripts/player/Player.gd" id="1_1kbk7"]
+[ext_resource type="Script" uid="uid://donyd6xxyu51k" path="res://scripts/player/cam_controller.gd" id="1_cyojo"]
+[ext_resource type="Resource" uid="uid://b8tsjfyq5w20p" path="res://scripts/movementState/stand.tres" id="2_uiqp4"]
+[ext_resource type="Resource" uid="uid://co4cvxmon77jv" path="res://scripts/movementState/walk.tres" id="3_hvfru"]
+[ext_resource type="Resource" uid="uid://dv6srhhxf7p6t" path="res://scripts/movementState/sprint.tres" id="4_a06cl"]
+[ext_resource type="Resource" uid="uid://n3kfbf8sr54r" path="res://scripts/movementState/run.tres" id="5_a06cl"]
+[ext_resource type="Script" uid="uid://duyoykab7o6hr" path="res://scripts/player/movement_controller.gd" id="6_hvfru"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_kk62l"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_kk62l"]
+height = 0.995544
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_1kbk7")
+movement_states = {
+"run": ExtResource("5_a06cl"),
+"sprint": ExtResource("4_a06cl"),
+"stand": ExtResource("2_uiqp4"),
+"walk": ExtResource("3_hvfru")
+}
+
+[node name="Mesh" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mesh"]
+transform = Transform3D(0.752924, 0, 0, 0, 0.623211, 0, 0, 0, 1, 0, 0.664685, 0)
+mesh = SubResource("CapsuleMesh_kk62l")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.502228, 0)
+shape = SubResource("CylinderShape3D_kk62l")
+
+[node name="CamRoot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.950675, -0.931698)
+script = ExtResource("1_cyojo")
+
+[node name="CamYaw" type="Node3D" parent="CamRoot"]
+
+[node name="CamPitch" type="Node3D" parent="CamRoot/CamYaw"]
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CamRoot/CamYaw/CamPitch"]
+spring_length = 3.0
+
+[node name="Camera3D" type="Camera3D" parent="CamRoot/CamYaw/CamPitch/SpringArm3D"]
+
+[node name="MovementController" type="Node3D" parent="." node_paths=PackedStringArray("player", "mesh_root")]
+script = ExtResource("6_hvfru")
+player = NodePath("..")
+mesh_root = NodePath("../Mesh")
+
+[connection signal="set_movement_direction" from="." to="MovementController" method="_on_set_movement_direction"]
+[connection signal="set_movement_state" from="." to="CamRoot" method="_on_set_movement_state"]
+[connection signal="set_movement_state" from="." to="MovementController" method="_on_set_movement_state"]
+[connection signal="set_cam_rotation" from="CamRoot" to="MovementController" method="_on_set_cam_rotation"]

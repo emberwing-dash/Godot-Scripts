@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="MovementState" load_steps=2 format=3 uid="uid://n3kfbf8sr54r"]
+
+[ext_resource type="Script" uid="uid://b6xh3gu6s7mw2" path="res://scripts/player/movement_state.gd" id="1_gdik5"]
+
+[resource]
+script = ExtResource("1_gdik5")
+id = 2
+movement_speed = 8.0
+acceleration = 5.0
+camera_fov = 55.0
+animation_speed = 1.0
+metadata/_custom_type_script = "uid://b6xh3gu6s7mw2"

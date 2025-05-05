@@ -1,0 +1,46 @@
+[gd_scene load_steps=8 format=3 uid="uid://b8jgxnu0cahb2"]
+
+[ext_resource type="PackedScene" uid="uid://iys0xgc1r27i" path="res://scenes/Player/player.tscn" id="1_slc4d"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_slc4d"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_m0abe"]
+sky_material = SubResource("ProceduralSkyMaterial_slc4d")
+
+[sub_resource type="Environment" id="Environment_jsktn"]
+background_mode = 2
+sky = SubResource("Sky_m0abe")
+tonemap_mode = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yv6cx"]
+albedo_color = Color(0.022815, 0.0903125, 0.171131, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_slc4d"]
+material = SubResource("StandardMaterial3D_yv6cx")
+
+[sub_resource type="TorusMesh" id="TorusMesh_m0abe"]
+
+[node name="Main" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_jsktn")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment"]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Objects" type="Node3D" parent="."]
+
+[node name="Plane" type="MeshInstance3D" parent="Objects"]
+transform = Transform3D(6.08278, 0, 0, 0, 6.08278, 0, 0, 0, 6.08278, 0, 0, 0)
+mesh = SubResource("PlaneMesh_slc4d")
+skeleton = NodePath("../..")
+
+[node name="torus" type="MeshInstance3D" parent="Objects"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.105912, 0)
+mesh = SubResource("TorusMesh_m0abe")
+
+[node name="Player" parent="." instance=ExtResource("1_slc4d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
